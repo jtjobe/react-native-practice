@@ -88,7 +88,7 @@ class ExerciseListItem extends Component {
 
 const exercises = [
   {
-    id: 1,
+    id: 1, // consider key uniqueness problem if an exercise is in a routine more than once
     name: 'Jumping Jacks',
     metrics: {
       reps: 40
