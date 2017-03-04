@@ -11,12 +11,35 @@ class CurrentExerciseBox extends Component {
   constructor(props) {
     super(props)
     // Beware of this pattern, as it effectively "forks" the props and can lead to bugs. Instead of syncing props to state, you often want to lift the state up.
-    this.state = { currentExercise: 'Yoga' };
+    this.state = { 
+      currentExerciseIndex: 0,
+      currentExercise: exercises[0]
+    };
     this.handleChange = this.handleChange.bind(this);
+    this.getNextExercise = this.getNextExercise.bind(this);
   }
 
   handleChange(e) {
-    this.setState({ currentExercise: 'Pilates' })
+    // could things could get out of sync here? since not using prevState?
+    var nextExercise = this.getNextExercise(this.state);
+
+    this.setState((prevState, props) => ({
+      currentExerciseIndex: nextExercise.index,
+      currentExercise: nextExercise.exercise
+    }));
+  }
+
+  getNextExercise(state) {
+    var nextExerciseIndex = state.currentExerciseIndex + 1;
+
+    if (nextExerciseIndex >= exercises.length) {
+      nextExerciseIndex = 0;
+    }
+
+    return {
+      index: nextExerciseIndex,
+      exercise: exercises[nextExerciseIndex]
+    }
   }
 
   render() {
@@ -25,7 +48,7 @@ class CurrentExerciseBox extends Component {
     return (
       <View>
         <Text>CurrentExerciseBox</Text>
-        <Text>Current: { currentExercise }</Text>
+        <Text>Current: { currentExercise.name }</Text>
         <Button onPress={ this.handleChange } title="Next" />
       </View>
     )
