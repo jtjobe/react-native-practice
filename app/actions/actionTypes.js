@@ -1,0 +1,1 @@
+export const NEXT_EXERCISE = 'NEXT_EXERCISE';
